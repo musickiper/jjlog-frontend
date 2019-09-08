@@ -4,6 +4,8 @@ import GlobalStyles from "../Styles/GlobalStyles";
 import Theme from "../Styles/Theme";
 import AppRouter from "./Router";
 import {useQuery} from "react-apollo-hooks";
+import {ToastContainer, toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {gql} from "apollo-boost";
 import styled from "styled-components";
 
@@ -27,6 +29,7 @@ export default () => {
             <Wrapper>
                 <GlobalStyles/>
                 <AppRouter isLoggedIn={isLoggedIn}/>
+                <ToastContainer position={toast.POSITION.BOTTOM_LEFT}/>
             </Wrapper>
         </ThemeProvider>
     );
