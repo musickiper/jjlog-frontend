@@ -7,15 +7,15 @@ import styled from "styled-components";
 import GlobalStyles from "../Styles/GlobalStyles";
 import Theme from "../Styles/Theme";
 import AppRouter from "./Router";
-import Header from "./Header";
+import { default as Header } from "./Header";
 import Navigator from "./Navigator";
-// import {gql} from "apollo-boost";
+import { gql } from "apollo-boost";
 
-// const QUERY = gql(`
-//     {
-//         isLoggedIn @client
-//     }
-// `);
+const QUERY = gql(`
+    {
+        isLoggedIn @client
+    }
+`);
 
 const Wrapper = styled.div`
   margin: 0 auto;
@@ -24,14 +24,16 @@ const Wrapper = styled.div`
 `;
 
 export default () => {
-  // const {data: {isLoggedIn}} = useQuery(QUERY);
+  const {
+    data: { isLoggedIn }
+  } = useQuery(QUERY);
 
   return (
     <ThemeProvider theme={Theme}>
       <Wrapper>
         <GlobalStyles />
         {/* <AppRouter isLoggedIn={isLoggedIn}/> */}
-        <Header />
+        <Header isLoggedIn={isLoggedIn} />
         <Navigator />
         <AppRouter />
         <ToastContainer position={toast.POSITION.BOTTOM_LEFT} />
