@@ -62,23 +62,22 @@ const ME = gql`
 `;
 
 const Header = ({isLoggedIn}) => {
-    const {data, loading, error} = useQuery(ME);
-    if(loading) {
+    const {data, loading} = useQuery(ME);
+    if (loading) {
         return <div>Loading...</div>;
     }
-    if(error) {
-        return <div>Error! {error.message}</div>
-    }
-
-    const {avatar, username} = data.me;
+    // It should be replaced by another way
+    // ISSUE: when loading is done, still data remains empty, so it causes error below
+    if(isLoggedIn && !data.me) window.location.replace('/');
 
     return (
         <Container>
             <Search to="/search"><MdSearch/></Search>
             <Title to="/">J J L O G</Title>
             {
-                isLoggedIn
-                    ? <Avatar to={`/profile/${username}`}><Image url={avatar} alt={username}/></Avatar>
+                isLoggedIn && data.me
+                    ? <Avatar to={`/profile/${data.me.username}`}><Image url={data.me.avatar}
+                                                                         alt={data.me.username}/></Avatar>
                     : <LogIn to="/auth">Log In</LogIn>
             }
         </Container>
