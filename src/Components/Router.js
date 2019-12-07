@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Route, Switch } from "react-router-dom";
 import ProjectsContainer from "../Routes/Projects";
 import AuthContainer from "../Routes/Auth";
@@ -13,12 +12,9 @@ const AppRouter = () => (
     {/* <Switch>{isLoggedIn ? <LoggedInRoutes/> : <LoggedOutRoutes/>}</Switch> */}
     <Switch>
       <Route exact path={"/"} component={ProjectsContainer} />
+      <Route path={"/auth"} component={AuthContainer}/>
     </Switch>
   </>
 );
-
-// AppRouter.propTypes = {
-//   isLoggedIn: PropTypes.bool.isRequired
-// };
 
 export default AppRouter;
