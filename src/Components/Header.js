@@ -1,12 +1,10 @@
-// eslint-disable-next-line no-unused-vars
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 import {MdSearch} from "react-icons/all";
-import {gql} from "apollo-boost";
-import {useQuery} from "react-apollo-hooks";
-import Image from "./Image";
+import {gql} from 'apollo-boost';
+import {useMutation} from "react-apollo-hooks";
 
 const Container = styled.div`
   display: flex;
@@ -18,15 +16,16 @@ const Container = styled.div`
 `;
 
 const Search = styled(Link)`
-  margin: 16px;
-  font-size: 7vh;
+  margin: 30px;
+  padding-top: 5px;
+  font-size: 3rem;
   &:hover {
     color: ${props => props.theme.lightGreyColor};
     border-color: ${props => props.theme.lightGreyColor};
 `;
 
 const Title = styled(Link)`
-  margin: 16px;
+  margin: 30px;
   font-size: 3.0rem;
   font-weight: bold;
   transition: transform .2s;
@@ -36,10 +35,9 @@ const Title = styled(Link)`
 `;
 
 const LogIn = styled(Link)`
-  margin: 16px;
-  font-size: 1rem;
+  margin: 30px;
   border: 1px solid ${props => props.theme.blueColor};
-  padding: 10px 16px;
+  padding: 16px;
   border-radius: ${props => props.theme.borderRadius};
   &:hover {
     color: ${props => props.theme.lightGreyColor};
@@ -47,38 +45,34 @@ const LogIn = styled(Link)`
   }
 `;
 
-const Avatar = styled(Link)`
-  margin: 16px;
-  padding: 10px 16px;
+const LogOut = styled.div`
+  margin: 30px;
+  cursor: pointer;
+  border: 1px solid ${props => props.theme.blueColor};
+  padding: 16px;
+  border-radius: ${props => props.theme.borderRadius};
+  &:hover {
+    color: ${props => props.theme.lightGreyColor};
+    border-color: ${props => props.theme.lightGreyColor};
+  }
 `;
 
-const ME = gql`
-    query {
-        me {
-            avatar,
-            username
-        }
+const LOG_OUT = gql`
+    mutation logUserOut {
+        logUserOut @client
     }
 `;
 
 const Header = ({isLoggedIn}) => {
-    const {data, loading} = useQuery(ME);
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-    // It should be replaced by another way
-    // ISSUE: when loading is done, still data remains empty, so it causes error below
-    if(isLoggedIn && !data.me) window.location.replace('/');
+    const logOut = useMutation(LOG_OUT)[0];
 
     return (
         <Container>
             <Search to="/search"><MdSearch/></Search>
             <Title to="/">J J L O G</Title>
-            {
-                isLoggedIn && data.me
-                    ? <Avatar to={`/profile/${data.me.username}`}><Image url={data.me.avatar}
-                                                                         alt={data.me.username}/></Avatar>
-                    : <LogIn to="/auth">Log In</LogIn>
+            {!isLoggedIn
+                ? <LogIn to={"/login"}>Log In</LogIn>
+                : <LogOut onClick={logOut}>Log Out</LogOut>
             }
         </Container>
     );
