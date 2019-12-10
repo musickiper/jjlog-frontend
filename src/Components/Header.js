@@ -13,12 +13,26 @@ const Container = styled.div`
   background-color: white;
   padding: 0;
   height: 12vh;
+  font-size: 2rem;
+  ${({ theme }) => `
+    @media ${theme.tablet} {
+      font-size: 3rem;
+    }
+  `}
 `;
 
 const Search = styled(Link)`
   margin: 30px;
   padding-top: 5px;
-  font-size: 3rem;
+  ${({ theme }) => `
+    @media ${theme.mobileM} {
+      order:0;
+    }
+    @media ${theme.tablet} {
+      font-size: 3rem;
+      flex-direction: row;
+    }
+  `}
   &:hover {
     color: ${props => props.theme.lightGreyColor};
     border-color: ${props => props.theme.lightGreyColor};
@@ -26,23 +40,37 @@ const Search = styled(Link)`
 
 const Title = styled(Link)`
   margin: 30px;
-  font-size: 3rem;
   font-weight: bold;
   transition: transform 0.2s;
   &:hover {
     transform: scale(1.5);
   }
+  ${({ theme }) => `
+    @media ${theme.mobileM} {
+      order: 1;
+    }
+  `}
 `;
 
 const LogIn = styled(Link)`
+  display: none;
   margin: 30px;
   border: 1px solid ${props => props.theme.blueColor};
   padding: 16px;
   border-radius: ${props => props.theme.borderRadius};
+  font-size: 1rem;
   &:hover {
     color: ${props => props.theme.lightGreyColor};
     border-color: ${props => props.theme.lightGreyColor};
   }
+  ${({ theme }) => `
+    @media ${theme.mobileM} {
+      order: 2;
+    }
+    @media ${theme.mobileL} {
+      display: block;
+    }
+  `}
 `;
 
 const LogOut = styled.div`
