@@ -19,7 +19,6 @@ const Tab = styled.div`
   height: 100%;
   justify-content: center;
   align-items: center;
-  font-size: 1.5rem;
   font-weight: ${({ isActive }) => isActive && "bold"}
   border-bottom: ${({ isActive, theme }) =>
     isActive && `3px solid ${theme.lightGreyColor}`};
