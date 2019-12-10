@@ -14,7 +14,6 @@ const Wrapper = styled.div`
 
 const Box = styled.div`
   ${props => props.theme.whiteBox};
-  border-radius: 0px;
   width: 100%;
   max-width: 600px;
 `;

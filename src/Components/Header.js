@@ -25,9 +25,6 @@ const Search = styled(Link)`
   margin: 30px;
   padding-top: 5px;
   ${({ theme }) => `
-    @media ${theme.mobileM} {
-      order:0;
-    }
     @media ${theme.tablet} {
       font-size: 3rem;
       flex-direction: row;
@@ -45,11 +42,6 @@ const Title = styled(Link)`
   &:hover {
     transform: scale(1.5);
   }
-  ${({ theme }) => `
-    @media ${theme.mobileM} {
-      order: 1;
-    }
-  `}
 `;
 
 const LogIn = styled(Link)`
@@ -64,26 +56,30 @@ const LogIn = styled(Link)`
     border-color: ${props => props.theme.lightGreyColor};
   }
   ${({ theme }) => `
-    @media ${theme.mobileM} {
-      order: 2;
-    }
-    @media ${theme.mobileL} {
+    @media ${theme.tablet} {
       display: block;
     }
   `}
 `;
 
 const LogOut = styled.div`
+  display: none;
   margin: 30px;
   cursor: pointer;
   border: 1px solid ${props => props.theme.blueColor};
   color: ${props => props.theme.blueColor};
   padding: 16px;
   border-radius: ${props => props.theme.borderRadius};
+  font-size: 1rem;
   &:hover {
     color: ${props => props.theme.lightGreyColor};
     border-color: ${props => props.theme.lightGreyColor};
   }
+  ${({ theme }) => `
+    @media ${theme.tablet} {
+      display: block;
+    }
+  `}
 `;
 
 const LOG_OUT = gql`
