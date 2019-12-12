@@ -1,10 +1,12 @@
 import React from "react";
 import ProjectsPresenter from "./ProjectsPresenter";
 import { useQuery } from "react-apollo-hooks";
-import { ALL_POSTS } from "./ProjectsQuery";
+import { ALL_POSTS } from "./ProjectsQueries";
 
 const ProjectsContainer = () => {
-  const { data, loading } = useQuery(ALL_POSTS);
+  const getAllPostsQuery = useQuery(ALL_POSTS);
+  const { data, loading } = getAllPostsQuery;
+
   return loading ? (
     <div>loading...</div>
   ) : (

@@ -29,6 +29,9 @@ const Card = styled.div`
 
 const ThumbnailBox = styled.div`
   cursor: pointer;
+  &:hover {
+    opacity: 0.5;
+  }
 `;
 
 const TNImg = styled.img`
@@ -51,6 +54,7 @@ const UserBox = styled.div`
 
 const User = styled(Link)`
   font-weight: bold;
+  color: ${props => props.theme.darkBlueColor};
   font-size: 0.8rem;
 `;
 
@@ -98,7 +102,7 @@ const ProjectsPresenter = ({ posts }) => {
                 <User to={`/profile?username=${username}`}>{username}</User>
               </UserBox>
               <TitleBox>
-                <Title to={`/project/id=${id}`}>title</Title>
+                <Title to={`/project?id=${id}`}>title</Title>
               </TitleBox>
               <CreatedAt>{new Date(createdAt).toLocaleDateString()}</CreatedAt>
             </Header>
