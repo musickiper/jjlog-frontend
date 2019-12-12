@@ -9,6 +9,7 @@ export const ALL_POSTS = gql`
       summary
       createdAt
       user {
+        id
         username
       }
       images {

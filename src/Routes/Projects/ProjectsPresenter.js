@@ -90,7 +90,13 @@ const ProjectsPresenter = ({ posts }) => {
   return (
     <Container>
       {posts.map(
-        ({ id, images, user: { username }, summary, createdAt }, index) => (
+        ({
+          id,
+          images,
+          user: { id: userId, username },
+          summary,
+          createdAt
+        }) => (
           <Card key={id}>
             <ThumbnailBox>
               <Link to={`/project?id=${id}`}>
@@ -99,7 +105,7 @@ const ProjectsPresenter = ({ posts }) => {
             </ThumbnailBox>
             <Header>
               <UserBox>
-                <User to={`/profile?username=${username}`}>{username}</User>
+                <User to={`/profile?userId=${userId}`}>{username}</User>
               </UserBox>
               <TitleBox>
                 <Title to={`/project?id=${id}`}>title</Title>
