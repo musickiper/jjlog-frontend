@@ -18,6 +18,7 @@ const AppRouter = ({ isLoggedIn }) => (
       <Route exact path={"/"} component={ProjectsContainer} />
       <Route path={"/login"} component={AuthContainer} />
       <Route path={"/aboutme"} component={AboutMe} />
+      <Route path={"/projects/:category"} component={ProjectsContainer} />
       <Route path={"/projects"} component={ProjectsContainer} />
       <Route path={"/project"} component={ProjectContainer} />
       <Route path={"/categories"} component={Categories} />
