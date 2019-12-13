@@ -1,12 +1,11 @@
 import React, { useState, useCallback } from "react";
 import ProjectPresenter from "./ProjectPresenter";
 import queryString from "query-string";
-import produce from "immer";
 import { useQuery, useMutation } from "react-apollo-hooks";
 import { IS_LOGGED_IN, SEE_FULL_POST, CREATE_COMMENT } from "./ProjectQueries";
 
 // Project container component
-const ProjectContainer = ({ location }) => {
+const ProjectContainer = ({ location, history }) => {
   const [inputText, setInputText] = useState("");
   const { id } = queryString.parse(location.search);
 
@@ -14,11 +13,6 @@ const ProjectContainer = ({ location }) => {
   const {
     data: { isLoggedIn }
   } = useQuery(IS_LOGGED_IN);
-
-  // Query to get full post data from server
-  const { data, loading } = useQuery(SEE_FULL_POST, {
-    variables: { id: id }
-  });
 
   // Query to send comment data to create a new comment
   const createComment = useMutation(CREATE_COMMENT, {
@@ -51,6 +45,15 @@ const ProjectContainer = ({ location }) => {
     },
     [createComment]
   );
+
+  // Query to get full post data from server
+  const { data, loading, error } = useQuery(SEE_FULL_POST, {
+    variables: { id: id }
+  });
+
+  if (error) {
+    history.go("/");
+  }
 
   // When data is loading from server, show this
   if (loading) {
