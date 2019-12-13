@@ -8,7 +8,7 @@ import {
   CREATE_ACCOUNT,
   LOCAL_LOG_IN,
   LOG_IN
-} from "./AuthQuery";
+} from "./AuthQueries";
 import { toast } from "react-toastify";
 
 export default ({ history }) => {

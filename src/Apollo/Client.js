@@ -8,6 +8,6 @@ export default new ApolloClient({
     resolvers
   },
   headers: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`
+    authorization: `Bearer ${localStorage.getItem("token")}`
   }
 });
