@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 
 const Container = styled.div`
   display: grid;
   overflow-y: scroll;
-  ${({ theme }) => `
+  ${({theme}) => `
       @media ${theme.mobileL} {
         grid-template-columns: 50% 50%;
       }
@@ -86,41 +86,42 @@ const SummaryBox = styled.div`
   height: 10vh;
 `;
 
-const ProjectsPresenter = ({ posts }) => {
-  return (
-    <Container>
-      {posts.map(
-        ({
-          id,
-          images,
-          user: { id: userId, username },
-          summary,
-          createdAt
-        }) => (
-          <Card key={id}>
-            <ThumbnailBox>
-              <Link to={`/project?id=${id}`}>
-                <TNImg src={images[0].url} />
-              </Link>
-            </ThumbnailBox>
-            <Header>
-              <UserBox>
-                <User to={`/profile?userId=${userId}`}>{username}</User>
-              </UserBox>
-              <TitleBox>
-                <Title to={`/project?id=${id}`}>title</Title>
-              </TitleBox>
-              <CreatedAt>{new Date(createdAt).toLocaleDateString()}</CreatedAt>
-            </Header>
-            <HR>
-              <hr />
-            </HR>
-            <SummaryBox>{summary}</SummaryBox>
-          </Card>
-        )
-      )}
-    </Container>
-  );
+const ProjectsPresenter = ({posts}) => {
+    return (
+        <Container>
+            {posts.map(
+                ({
+                     id,
+                     title,
+                     images,
+                     user: {id: userId, username},
+                     summary,
+                     createdAt
+                 }) => (
+                    <Card key={id}>
+                        <ThumbnailBox>
+                            <Link to={`/project?id=${id}`}>
+                                <TNImg src={images[0].url}/>
+                            </Link>
+                        </ThumbnailBox>
+                        <Header>
+                            <UserBox>
+                                <User to={`/profile?userId=${userId}`}>{username}</User>
+                            </UserBox>
+                            <TitleBox>
+                                <Title to={`/project?id=${id}`}>{title}</Title>
+                            </TitleBox>
+                            <CreatedAt>{new Date(createdAt).toLocaleDateString()}</CreatedAt>
+                        </Header>
+                        <HR>
+                            <hr/>
+                        </HR>
+                        <SummaryBox>{summary}</SummaryBox>
+                    </Card>
+                )
+            )}
+        </Container>
+    );
 };
 
 export default React.memo(ProjectsPresenter);
