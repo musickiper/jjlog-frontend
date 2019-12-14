@@ -15,6 +15,9 @@ export const ALL_POSTS = gql`
       images {
         url
       }
+      categories {
+        title
+      }
     }
   }
 `;
