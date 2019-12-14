@@ -46,6 +46,10 @@ const ProjectContainer = ({ location, history }) => {
     [createComment]
   );
 
+  const onClick = (category) => {
+    history.push(`/projects/${category}`);
+  };
+
   // Query to get full post data from server
   const { data, loading, error } = useQuery(SEE_FULL_POST, {
     variables: { id: id }
@@ -67,6 +71,7 @@ const ProjectContainer = ({ location, history }) => {
         value={inputText}
         onChange={onChange}
         onSubmit={onSubmit}
+        onClick={onClick}
         isLoggedIn={isLoggedIn}
       />
     );

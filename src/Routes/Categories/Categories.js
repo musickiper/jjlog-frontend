@@ -8,11 +8,9 @@ const Container = styled.div`
   display:grid;
   margin: 1vh 1vh;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  ${({ theme }) => `
+  ${({theme}) => `
       @media ${theme.tablet} {
           grid-template-columns: repeat(5, 1fr);
-          grid-template-rows: repeat(5, 1fr);
       }
     `};
   grid-gap: 1rem;
@@ -26,8 +24,11 @@ const CategoryBox = styled.div`
   border-radius: ${props => props.theme.borderRadius};
   border: 2px solid ${props => props.theme.darkBlueColor};
   &:hover {
-    background-color:white;
-  }
+    background-color:${props => props.theme.darkBlueColor};
+    cursor:pointer;
+    a, span {
+      color:white;
+    }
 `;
 
 const Category = styled(Link)`
@@ -36,7 +37,7 @@ const Category = styled(Link)`
 `;
 
 const CategoryCount = styled.span`
-  color: ${props => props.theme.blackColor};
+  color: ${props => props.theme.darkBlueColor};
 `;
 
 const allCategories = gql`

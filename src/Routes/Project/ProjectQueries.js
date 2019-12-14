@@ -30,6 +30,10 @@ export const SEE_FULL_POST = gql`
           username
         }
       }
+      categories {
+        id
+        title
+      }
     }
   }
 `;
