@@ -76,7 +76,9 @@ const CreatedAt = styled.div`
 
 const HR = styled.div`
   margin: 2vh;
-  color: ${props => props.theme.lightGreyColor};
+  hr{
+    border: 1px solid ${props => props.theme.lightGreyColor};
+  }
 `;
 
 const SummaryBox = styled.div`
@@ -106,7 +108,7 @@ const ProjectsPresenter = ({posts}) => {
                         </ThumbnailBox>
                         <Header>
                             <UserBox>
-                                <User to={`/profile?userId=${userId}`}>{username}</User>
+                                <User to={`/profile?username=${username}`}>{username}</User>
                             </UserBox>
                             <TitleBox>
                                 <Title to={`/project?id=${id}`}>{title}</Title>

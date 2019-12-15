@@ -8,7 +8,7 @@ import Input from "../../Components/Input";
 import Button from "../../Components/Button";
 
 const Container = styled.div`
-  ${props => props.theme.whiteBox}
+  ${props => props.theme.whiteBox};
   display: flex;
   flex-direction: column;
   min-height: 400px;
@@ -41,7 +41,9 @@ const CreatedAt = styled.div`
 
 const HR = styled.div`
   margin: 2vh;
-  color: ${props => props.theme.lightGreyColor};
+  hr{
+    border: 1px solid ${props => props.theme.lightGreyColor};
+  }
 `;
 
 const Images = styled.div`
@@ -200,8 +202,8 @@ export default ({
                     data: {id, user, title, contents, createdAt, images, comments, categories},
                     value,
                     onChange,
-                    onSubmit,
-                    onClick,
+                    onSubmitComment,
+                    onClickCategory,
                     isLoggedIn
                 }) => {
     return (
@@ -212,7 +214,7 @@ export default ({
             </Helmet>
             <Header>
                 <UserBox>
-                    <User to={`/profile?userId=${user.id}`}>{user.username}</User>
+                    <User to={`/profile?username=${user.username}`}>{user.username}</User>
                 </UserBox>
                 <Title>{title}</Title>
                 <CreatedAt>{parseDate(createdAt)}</CreatedAt>
@@ -232,7 +234,7 @@ export default ({
             </ContentsBox>
             <Categories>
                 {categories.map(({id, title}) => (
-                    <CategoryBox key={id} onClick={() => onClick(title)}>
+                    <CategoryBox key={id} onClick={() => onClickCategory(title)}>
                         <Category to={`/projects/${title}`}>{title}</Category>
                     </CategoryBox>
                 ))}
@@ -240,7 +242,7 @@ export default ({
             <HR>
                 <hr/>
             </HR>
-            <CommentForm onSubmit={onSubmit}>
+            <CommentForm onSubmit={onSubmitComment}>
                 <CommentCount>{`${comments.length} Comments`}</CommentCount>
                 {isLoggedIn ? (
                     <>
@@ -270,7 +272,7 @@ export default ({
                     <React.Fragment key={comment.id}>
                         <Comment>
                             <UserBox>
-                                <User to={`/profile?userId=${comment.user.id}`}>
+                                <User to={`/profile?username=${comment.user.username}`}>
                                     {comment.user.username}
                                 </User>
                             </UserBox>

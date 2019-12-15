@@ -3,6 +3,7 @@ import ProjectPresenter from "./ProjectPresenter";
 import queryString from "query-string";
 import { useQuery, useMutation } from "react-apollo-hooks";
 import { IS_LOGGED_IN, SEE_FULL_POST, CREATE_COMMENT } from "./ProjectQueries";
+import {toast} from "react-toastify";
 
 // Project container component
 const ProjectContainer = ({ location, history }) => {
@@ -32,7 +33,7 @@ const ProjectContainer = ({ location, history }) => {
   }, []);
 
   // Callback to create a new comment obj with data entered by user
-  const onSubmit = useCallback(
+  const onSubmitComment = useCallback(
     async e => {
       e.preventDefault();
       try {
@@ -46,7 +47,7 @@ const ProjectContainer = ({ location, history }) => {
     [createComment]
   );
 
-  const onClick = (category) => {
+  const onClickCategory = (category) => {
     history.push(`/projects/${category}`);
   };
 
@@ -56,7 +57,8 @@ const ProjectContainer = ({ location, history }) => {
   });
 
   if (error) {
-    history.go("/");
+    toast.error("Invalid post id");
+    return "";
   }
 
   // When data is loading from server, show this
@@ -70,8 +72,8 @@ const ProjectContainer = ({ location, history }) => {
         data={seeFullPost}
         value={inputText}
         onChange={onChange}
-        onSubmit={onSubmit}
-        onClick={onClick}
+        onSubmitComment={onSubmitComment}
+        onClickCategory={onClickCategory}
         isLoggedIn={isLoggedIn}
       />
     );

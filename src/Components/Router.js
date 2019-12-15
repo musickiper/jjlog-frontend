@@ -7,6 +7,7 @@ import Categories from "../Routes/Categories";
 import ProjectContainer from "../Routes/Project";
 import NotFound from "../Routes/NotFound";
 import Search from "../Routes/Search/Search";
+import Profile from "../Routes/Profile";
 
 // const LoggedInRoutes = () => <><Route exact path={"/"} component={Project}/></>;
 
@@ -18,6 +19,7 @@ const AppRouter = ({ isLoggedIn }) => (
     <Switch>
       <Route exact path={"/"} component={ProjectsContainer} />
       <Route path={"/login"} component={AuthContainer} />
+      <Route path={"/profile"} component={Profile}/>
       <Route path={"/aboutme"} component={AboutMe} />
       <Route path={"/projects/:category"} component={ProjectsContainer} />
       <Route path={"/projects"} component={ProjectsContainer} />
