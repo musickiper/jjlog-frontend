@@ -9,13 +9,8 @@ import NotFound from "../Routes/NotFound";
 import Search from "../Routes/Search/Search";
 import Profile from "../Routes/Profile";
 
-// const LoggedInRoutes = () => <><Route exact path={"/"} component={Project}/></>;
-
-// const LoggedOutRoutes = () => <><Route exact path={"/"} component={AuthContainer}/></>;
-
-const AppRouter = ({ isLoggedIn }) => (
+const AppRouter = () => (
   <>
-    {/* <Switch>{isLoggedIn ? <LoggedInRoutes/> : <LoggedOutRoutes/>}</Switch> */}
     <Switch>
       <Route exact path={"/"} component={ProjectsContainer} />
       <Route path={"/login"} component={AuthContainer} />
