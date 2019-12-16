@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import {IoIosPin} from 'react-icons/io';
+import {Helmet} from "react-helmet";
 
 const Container = styled.div`
   width: 100%;
@@ -48,6 +49,10 @@ const AboutMe = () => {
 
     return (
         <Container>
+            <Helmet>
+                <meta charSet="utf-8"/>
+                <title>About Me</title>
+            </Helmet>
             <ImageBox>
                 <Image src={IMG_LINK}/>
             </ImageBox>

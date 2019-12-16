@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
+import {Helmet} from "react-helmet";
 
 const Wrapper = styled.div`
   min-height: 80vh;
@@ -55,6 +56,10 @@ export default ({
   isLoading
 }) => (
   <Wrapper isLoading={isLoading}>
+    <Helmet>
+      <meta charSet="utf-8"/>
+      <title>Auth</title>
+    </Helmet>
     <Form>
       {action === "logIn" && (
         <form onSubmit={onSubmit}>

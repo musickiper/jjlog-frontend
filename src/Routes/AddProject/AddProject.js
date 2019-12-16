@@ -5,6 +5,7 @@ import {toast} from "react-toastify";
 import styled from 'styled-components';
 import Button from "../../Components/Button";
 import storage from "../../Firebase/index";
+import {Helmet} from "react-helmet";
 
 const Container = styled.div`
   width: 100%;
@@ -81,6 +82,7 @@ const TEXT_AREA_DEFAULT = `
 
 const AddPost = ({history}) => {
     const {data: {isLoggedIn}} = useQuery(IS_LOGGED_IN);
+    const [imageUpdated, setImageUpdated] = useState(false);
     const [images, setImages] = useState([]);
     const [urls] = useState([]);
 
@@ -96,18 +98,19 @@ const AddPost = ({history}) => {
 
     const handleImageUpload = async (e) => {
         e.preventDefault();
-        for (const image of images) {
-            const curTime = Date.now();
-            const imageName = `${curTime}_${image.name}`;
-            try {
+        try {
+            for (const image of images) {
+                const curTime = Date.now();
+                const imageName = `${curTime}_${image.name}`;
                 await storage.ref(`images/${imageName}`).put(image);
                 const url = await storage.ref(`images/${imageName}`).getDownloadURL();
                 urls.push(url);
-            } catch (e) {
-                console.error(e);
-                toast.error("Upload Images failed");
-                return;
             }
+            setImageUpdated(true);
+        } catch (e) {
+            console.error(e);
+            toast.error("Upload Images failed");
+            return;
         }
         toast.success("Upload Images success");
     };
@@ -139,10 +142,15 @@ const AddPost = ({history}) => {
             console.log(e);
             toast.error("Create Post failed");
         }
+        history.push("/");
     };
 
     return (
         <Container>
+            <Helmet>
+                <meta charSet="utf-8"/>
+                <title>Add PRJ</title>
+            </Helmet>
             <FileUploadBox>
                 <form onSubmit={handleImageUpload}>
                     <Input type={"file"} multiple={"multiple"} required={true} onChange={handleImageChoose}/>
@@ -156,7 +164,9 @@ const AddPost = ({history}) => {
                     <TextArea placeholder={"contents"} rows={20} required={true} type={"text"}
                               defaultValue={TEXT_AREA_DEFAULT}/>
                     <Input placeholder={"c1,c2,c3,..."} required={true} type={"text"}/>
-                    <Button text={"Submit"}/>
+                    {imageUpdated &&
+                        <Button text={"Submit"}/>
+                    }
                 </form>
             </PostBox>
         </Container>

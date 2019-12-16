@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import {gql} from 'apollo-boost';
 import {useQuery} from "react-apollo-hooks";
+import {Helmet} from "react-helmet";
 
 const Container = styled.div`
   display:grid;
@@ -67,6 +68,10 @@ const Categories = ({history}) => {
         const {allCategories} = data;
         return (
             <Container>
+                <Helmet>
+                    <meta charSet="utf-8"/>
+                    <title>Categories</title>
+                </Helmet>
                 {allCategories.map(({id, title, count}) => (
                     count !== 0 && (<CategoryBox key={id} onClick={() => onClick(title)}>
                             <Category to={`/projects/${title}`}>{title}</Category>

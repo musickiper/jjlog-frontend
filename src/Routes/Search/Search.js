@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import styled from 'styled-components';
+import {Helmet} from "react-helmet";
 
 const Container = styled.div`
   display: flex;
@@ -46,6 +47,10 @@ const Search = ({history}) => {
 
     return (
         <Container>
+            <Helmet>
+                <meta charSet="utf-8"/>
+                <title>Search</title>
+            </Helmet>
             <SearchForm onSubmit={onSubmit}>
                 <Input type={"text"} placeholder={"Enter keyword here"} value={term} onChange={onChange}/>
             </SearchForm>

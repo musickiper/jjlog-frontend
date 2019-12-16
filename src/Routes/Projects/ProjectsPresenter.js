@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import {Link} from "react-router-dom";
+import {Helmet} from "react-helmet";
 
 const Container = styled.div`
   display: grid;
@@ -91,6 +92,10 @@ const SummaryBox = styled.div`
 const ProjectsPresenter = ({posts}) => {
     return (
         <Container>
+            <Helmet>
+                <meta charSet="utf-8"/>
+                <title>Projects</title>
+            </Helmet>
             {posts.map(
                 ({
                      id,
