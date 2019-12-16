@@ -11,21 +11,32 @@ import Navigator from "./Navigator";
 import {useQuery} from "react-apollo-hooks";
 import {gql} from "apollo-boost";
 
+const QUERY = gql(`
+    {
+        isLoggedIn @client
+    }
+`);
+
 const Wrapper = styled.div`
   margin: 0 auto;
   width: 100%;
 `;
 
-const App = () => (
-    <ThemeProvider theme={Theme}>
-        <Wrapper>
-            <GlobalStyles/>
-            <Header/>
-            <Navigator/>
-            <AppRouter/>
-            <ToastContainer position={toast.POSITION.BOTTOM_LEFT}/>
-        </Wrapper>
-    </ThemeProvider>
-);
+const App = () => {
+    const {
+        data: {isLoggedIn}
+    } = useQuery(QUERY);
+    return (
+        <ThemeProvider theme={Theme}>
+            <Wrapper>
+                <GlobalStyles/>
+                <Header isLoggedIn={isLoggedIn}/>
+                <Navigator/>
+                <AppRouter/>
+                <ToastContainer position={toast.POSITION.BOTTOM_LEFT}/>
+            </Wrapper>
+        </ThemeProvider>
+    );
+};
 
 export default App;
