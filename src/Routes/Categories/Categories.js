@@ -68,11 +68,11 @@ const Categories = ({history}) => {
         return (
             <Container>
                 {allCategories.map(({id, title, count}) => (
-                    <CategoryBox key={id} onClick={() => onClick(title)}>
-                        <Category to={`/projects/${title}`}>{title}</Category>
-                        <CategoryCount>Count: {count}</CategoryCount>
-                    </CategoryBox>
-                ))}
+                    count !== 0 && (<CategoryBox key={id} onClick={() => onClick(title)}>
+                            <Category to={`/projects/${title}`}>{title}</Category>
+                            <CategoryCount>Count: {count}</CategoryCount>
+                        </CategoryBox>
+                    )))}
             </Container>
         );
     }
