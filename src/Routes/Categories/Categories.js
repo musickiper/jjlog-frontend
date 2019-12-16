@@ -1,15 +1,15 @@
-import React from 'react';
-import styled from 'styled-components';
-import {Link} from 'react-router-dom';
-import {gql} from 'apollo-boost';
-import {useQuery} from "react-apollo-hooks";
-import {Helmet} from "react-helmet";
+import React from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { gql } from "apollo-boost";
+import { useQuery } from "react-apollo-hooks";
+import { Helmet } from "react-helmet";
 
 const Container = styled.div`
-  display:grid;
+  display: grid;
   margin: 1vh 1vh;
   grid-template-columns: repeat(2, 1fr);
-  ${({theme}) => `
+  ${({ theme }) => `
       @media ${theme.tablet} {
           grid-template-columns: repeat(5, 1fr);
       }
@@ -42,45 +42,48 @@ const CategoryCount = styled.span`
 `;
 
 const allCategories = gql`
-    query {
-        allCategories {
-            id
-            title
-            count
-        }
+  query {
+    allCategories {
+      id
+      title
+      count
     }
+  }
 `;
 
-const Categories = ({history}) => {
-    const {data, loading, error} = useQuery(allCategories);
+const Categories = ({ history }) => {
+  const { data, loading, error } = useQuery(allCategories);
 
-    const onClick = (title) => {
-        history.push(`/projects/${title}`);
-    };
+  const onClick = title => {
+    history.push(`/projects/${title}`);
+  };
 
-    if (error) {
-        throw Error(error);
-    }
+  if (error) {
+    console.dir(error);
+  }
 
-    if (loading) {
-        return <div>loading...</div>
-    } else {
-        const {allCategories} = data;
-        return (
-            <Container>
-                <Helmet>
-                    <meta charSet="utf-8"/>
-                    <title>Categories</title>
-                </Helmet>
-                {allCategories.map(({id, title, count}) => (
-                    count !== 0 && (<CategoryBox key={id} onClick={() => onClick(title)}>
-                            <Category to={`/projects/${title}`}>{title}</Category>
-                            <CategoryCount>Count: {count}</CategoryCount>
-                        </CategoryBox>
-                    )))}
-            </Container>
-        );
-    }
+  if (loading || !data || !data.allCategories) {
+    return <div>loading...</div>;
+  } else {
+    const { allCategories } = data;
+    return (
+      <Container>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>Categories</title>
+        </Helmet>
+        {allCategories.map(
+          ({ id, title, count }) =>
+            count !== 0 && (
+              <CategoryBox key={id} onClick={() => onClick(title)}>
+                <Category to={`/projects/${title}`}>{title}</Category>
+                <CategoryCount>Count: {count}</CategoryCount>
+              </CategoryBox>
+            )
+        )}
+      </Container>
+    );
+  }
 };
 
 export default Categories;

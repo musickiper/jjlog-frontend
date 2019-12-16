@@ -65,6 +65,7 @@ const ImageBox = styled.div`
   margin: 0.5rem;
   border: 1px solid ${props => props.theme.blackColor};
   border-radius: ${props => props.theme.borderRadius};
+  height: 30vh;
 `;
 
 const Image = styled.img`

@@ -1,11 +1,13 @@
-import React, {useState} from 'react';
-import {gql} from "apollo-boost";
-import {useMutation, useQuery} from "react-apollo-hooks";
-import {toast} from "react-toastify";
-import styled from 'styled-components';
+import React, { useState } from "react";
+import { gql } from "apollo-boost";
+import { useMutation, useQuery } from "react-apollo-hooks";
+import { toast } from "react-toastify";
+import styled from "styled-components";
 import Button from "../../Components/Button";
 import storage from "../../Firebase/index";
-import {Helmet} from "react-helmet";
+import CkEditor from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { Helmet } from "react-helmet";
 
 const Container = styled.div`
   width: 100%;
@@ -47,9 +49,8 @@ const Input = styled.input`
   border: none;
 `;
 
-const TextArea = styled.textarea`
+const EditorBox = styled.div`
   margin-bottom: 2vh;
-  border:none;
 `;
 
 const IS_LOGGED_IN = gql(`
@@ -59,120 +60,133 @@ const IS_LOGGED_IN = gql(`
 `);
 
 const CREATE_POST = gql`
-    mutation createPost(
-        $title: String!
-        $summary: String!
-        $contents: String!
-        $categories: [String!]!
-        $images: [String!]!
+  mutation createPost(
+    $title: String!
+    $summary: String!
+    $contents: String!
+    $categories: [String!]!
+    $images: [String!]!
+  ) {
+    createPost(
+      title: $title
+      summary: $summary
+      contents: $contents
+      categories: $categories
+      images: $images
     ) {
-        createPost(
-            title: $title
-            summary: $summary
-            contents: $contents
-            categories: $categories
-            images: $images
-        ) {
-            id
-        }
+      id
     }
+  }
 `;
 
-const TEXT_AREA_DEFAULT = `
-    TextAreaDefault
-`;
+const AddPost = ({ history }) => {
+  const {
+    data: { isLoggedIn }
+  } = useQuery(IS_LOGGED_IN);
+  const [contents, setContents] = useState("");
+  const [imageUpdated, setImageUpdated] = useState(false);
+  const [images, setImages] = useState([]);
+  const [urls] = useState([]);
 
-const AddPost = ({history}) => {
-    const {data: {isLoggedIn}} = useQuery(IS_LOGGED_IN);
-    const [imageUpdated, setImageUpdated] = useState(false);
-    const [images, setImages] = useState([]);
-    const [urls] = useState([]);
+  if (!isLoggedIn) {
+    toast.error("You must be logged in to write a post");
+    history.push("/");
+  }
 
-    if (!isLoggedIn) {
-        toast.error("You must be logged in to write a post");
-        history.push("/");
+  const createPost = useMutation(CREATE_POST)[0];
+
+  const handleContentsChange = (event, editor) => {
+    const data = editor.getData();
+    setContents(data);
+  };
+
+  const handleImageChoose = e => {
+    setImages([...e.target.files]);
+    e.preventDefault();
+  };
+
+  const handleImageUpload = async e => {
+    e.preventDefault();
+    try {
+      let image;
+      for (image of images) {
+        const curTime = Date.now();
+        const imageName = `${curTime}_${image.name}`;
+        await storage.ref(`images/${imageName}`).put(image);
+        const url = await storage.ref(`images/${imageName}`).getDownloadURL();
+        urls.push(url);
+      }
+      setImageUpdated(true);
+    } catch (e) {
+      console.error(e);
+      toast.error("Upload Images failed");
+      return;
     }
+    toast.success("Upload Images success");
+  };
 
-    const handleImageChoose = (e) => {
-        setImages([...e.target.files]);
-        e.preventDefault();
-    };
-
-    const handleImageUpload = async (e) => {
-        e.preventDefault();
-        try {
-            for (const image of images) {
-                const curTime = Date.now();
-                const imageName = `${curTime}_${image.name}`;
-                await storage.ref(`images/${imageName}`).put(image);
-                const url = await storage.ref(`images/${imageName}`).getDownloadURL();
-                urls.push(url);
-            }
-            setImageUpdated(true);
-        } catch (e) {
-            console.error(e);
-            toast.error("Upload Images failed");
-            return;
+  const handlePostSubmit = async e => {
+    const { children } = e.target;
+    e.preventDefault();
+    const title = children[0].value;
+    const summary = children[1].value;
+    const categories = children[3].value.split(",");
+    if (!title || !summary || !contents || !categories || !urls) {
+      toast.error("You must fill out every fields");
+      return;
+    }
+    try {
+      await createPost({
+        variables: {
+          title,
+          summary,
+          contents,
+          categories,
+          images: urls
         }
-        toast.success("Upload Images success");
-    };
+      });
+    } catch (e) {
+      console.log(e);
+      toast.error("Create Post failed");
+    }
+    history.push("/");
+  };
 
-    const createPost = useMutation(CREATE_POST)[0];
-
-    const handlePostSubmit = async (e) => {
-        const {children} = e.target;
-        e.preventDefault();
-        const title = children[0].value;
-        const summary = children[1].value;
-        const contents = children[2].value;
-        const categories = children[3].value.split(',');
-        if (!title || !summary || !contents || !categories || !urls) {
-            toast.error("You must fill out every fields");
-            return;
-        }
-        try {
-            await createPost({
-                variables: {
-                    title,
-                    summary,
-                    contents,
-                    categories,
-                    images: urls
-                }
-            });
-        } catch (e) {
-            console.log(e);
-            toast.error("Create Post failed");
-        }
-        history.push("/");
-    };
-
-    return (
-        <Container>
-            <Helmet>
-                <meta charSet="utf-8"/>
-                <title>Add PRJ</title>
-            </Helmet>
-            <FileUploadBox>
-                <form onSubmit={handleImageUpload}>
-                    <Input type={"file"} multiple={"multiple"} required={true} onChange={handleImageChoose}/>
-                    <Button text={"Upload"}/>
-                </form>
-            </FileUploadBox>
-            <PostBox>
-                <form onSubmit={handlePostSubmit}>
-                    <Input placeholder={"title"} required={true} type={"text"}/>
-                    <Input placeholder={"summary"} required={true} type={"text"}/>
-                    <TextArea placeholder={"contents"} rows={20} required={true} type={"text"}
-                              defaultValue={TEXT_AREA_DEFAULT}/>
-                    <Input placeholder={"c1,c2,c3,..."} required={true} type={"text"}/>
-                    {imageUpdated &&
-                        <Button text={"Submit"}/>
-                    }
-                </form>
-            </PostBox>
-        </Container>
-    );
+  return (
+    <Container>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Add PRJ</title>
+      </Helmet>
+      <FileUploadBox>
+        <form onSubmit={handleImageUpload}>
+          <Input
+            type={"file"}
+            multiple={"multiple"}
+            required={true}
+            onChange={handleImageChoose}
+          />
+          <Button text={"Upload"} />
+        </form>
+      </FileUploadBox>
+      <PostBox>
+        <form onSubmit={handlePostSubmit}>
+          <Input placeholder={"title"} required={true} type={"text"} />
+          <Input placeholder={"summary"} required={true} type={"text"} />
+          <EditorBox>
+            <CkEditor
+              editor={ClassicEditor}
+              onChange={handleContentsChange}
+              data={contents}
+              value={contents}
+            />
+          </EditorBox>
+          <Input placeholder={"c1,c2,c3,..."} required={true} type={"text"} />
+          {imageUpdated && <Button text={"Submit"} />}
+        </form>
+      </PostBox>
+    </Container>
+  );
 };
 
 export default AddPost;
