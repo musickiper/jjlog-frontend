@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import React from "react";
 import styled from "styled-components";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import ReactHtmlParser from "react-html-parser";
-import {Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
 
@@ -17,7 +17,7 @@ const Container = styled.div`
 `;
 
 const Header = styled.div`
-  height: 100px;
+  height: 10vh;
   margin: 2vh;
 `;
 
@@ -30,18 +30,19 @@ const User = styled(Link)`
 `;
 
 const Title = styled.div`
-  font-size: 50px;
+  font-size: 2rem;
   font-weight: bold;
-  margin: 10px 0;
+  margin: 2vh 0;
 `;
 
 const CreatedAt = styled.div`
   color: ${props => props.theme.greyColor};
+  margin-top: 1vh;
 `;
 
 const HR = styled.div`
   margin: 2vh;
-  hr{
+  hr {
     border: 1px solid ${props => props.theme.lightGreyColor};
   }
 `;
@@ -49,7 +50,7 @@ const HR = styled.div`
 const Images = styled.div`
   display: grid;
   margin-bottom: 3vh;
-  ${({theme}) => `
+  ${({ theme }) => `
       @media ${theme.mobileL} {
         grid-template-columns: 50% 50%;
       }
@@ -62,6 +63,8 @@ const Images = styled.div`
 
 const ImageBox = styled.div`
   margin: 0.5rem;
+  border: 1px solid ${props => props.theme.blackColor};
+  border-radius: ${props => props.theme.borderRadius};
 `;
 
 const Image = styled.img`
@@ -81,9 +84,9 @@ const Contents = styled.div`
 
 const Categories = styled.div`
   margin: 2vh;
-  display:grid;
+  display: grid;
   grid-template-columns: repeat(2, 1fr);
-  ${({theme}) => `
+  ${({ theme }) => `
       @media ${theme.tablet} {
           grid-template-columns: repeat(5, 1fr);
       }
@@ -98,18 +101,20 @@ const CategoryBox = styled.div`
   flex-direction: column;
   padding: 1rem;
   border-radius: ${props => props.theme.borderRadius};
-  border: 2px solid ${props => props.theme.darkBlueColor};
+  border: 1px solid ${props => props.theme.darkBlueColor};
   &:hover {
-    background-color:${props => props.theme.darkBlueColor};
-    cursor:pointer;
+    background-color: ${props => props.theme.darkBlueColor};
+    cursor: pointer;
     a {
-      color:white;
+      color: white;
     }
   }
 `;
 
 const Category = styled(Link)`
   color: ${props => props.theme.darkBlueColor};
+  font-size: 0.5rem;
+  font-weight: bold;
 `;
 
 const CommentForm = styled.form`
@@ -121,7 +126,7 @@ const CommentCount = styled.div`
   margin-left: 20%;
   font-size: 1rem;
   font-weight: bold;
-  ${({theme}) => `
+  ${({ theme }) => `
       @media ${theme.tablet} {
           font-size: 2rem;
       }
@@ -135,7 +140,7 @@ const CommentInput = styled.div`
     width: 60%;
     height: 2.5rem;
     font-size: 0.5rem;
-    ${({theme}) => `
+    ${({ theme }) => `
       @media ${theme.mobileM} {
           font-size: 1rem;
       }
@@ -161,7 +166,7 @@ const RequestLoginBox = styled.div`
     width: 60%;
     height: 2.5rem;
     font-size: 0.5rem;
-    ${({theme}) => `
+    ${({ theme }) => `
       @media ${theme.mobileM} {
           font-size: 1rem;
       }
@@ -188,7 +193,7 @@ const Comment = styled.div`
     margin-bottom: 1vh;
     color: ${props => props.theme.blackColor};
     font-size: 0.5rem;
-    ${({theme}) => `
+    ${({ theme }) => `
       @media ${theme.mobileM} {
           font-size: 1rem;
       }
@@ -199,94 +204,94 @@ const Comment = styled.div`
 const parseDate = date => new Date(date).toLocaleDateString();
 
 export default ({
-                    data: {id, user, title, contents, createdAt, images, comments, categories},
-                    value,
-                    onChange,
-                    onSubmitComment,
-                    onClickCategory,
-                    isLoggedIn
-                }) => {
-    return (
-        <Container>
-            <Helmet>
-                <meta charSet="utf-8"/>
-                <title>{title}</title>
-            </Helmet>
-            <Header>
-                <UserBox>
-                    <User to={`/profile?username=${user.username}`}>{user.username}</User>
-                </UserBox>
-                <Title>{title}</Title>
-                <CreatedAt>{parseDate(createdAt)}</CreatedAt>
-            </Header>
+  data: { id, user, title, contents, createdAt, images, comments, categories },
+  value,
+  onChange,
+  onSubmitComment,
+  onClickCategory,
+  isLoggedIn
+}) => {
+  return (
+    <Container>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>{title}</title>
+      </Helmet>
+      <Header>
+        <UserBox>
+          <User to={`/profile?username=${user.username}`}>{user.username}</User>
+        </UserBox>
+        <Title>{title}</Title>
+        <CreatedAt>{parseDate(createdAt)}</CreatedAt>
+      </Header>
+      <HR>
+        <hr />
+      </HR>
+      <Images>
+        {images.map(image => (
+          <ImageBox key={image.id}>
+            <Image src={image.url} />
+          </ImageBox>
+        ))}
+      </Images>
+      <ContentsBox>
+        <Contents>{ReactHtmlParser(contents)}</Contents>
+      </ContentsBox>
+      <Categories>
+        {categories.map(({ id, title }) => (
+          <CategoryBox key={id} onClick={() => onClickCategory(title)}>
+            <Category to={`/projects/${title}`}>{title}</Category>
+          </CategoryBox>
+        ))}
+      </Categories>
+      <HR>
+        <hr />
+      </HR>
+      <CommentForm onSubmit={onSubmitComment}>
+        <CommentCount>{`${comments.length} Comments`}</CommentCount>
+        {isLoggedIn ? (
+          <>
+            <CommentInput>
+              <Input
+                placeholder={"Enter Comment here"}
+                required={true}
+                value={value}
+                onChange={onChange}
+              />
+            </CommentInput>
+            <CommentButton>
+              <Button text={"Add Comment"} />
+            </CommentButton>
+          </>
+        ) : (
+          <RequestLoginBox>
+            <RequestLogin to={"/login"}>
+              You must log in to comment!
+              <br /> Click here to log in <span role="img">😁</span>
+            </RequestLogin>
+          </RequestLoginBox>
+        )}
+      </CommentForm>
+      <CommentList>
+        {comments.map(comment => (
+          <React.Fragment key={comment.id}>
+            <Comment>
+              <UserBox>
+                <User to={`/profile?username=${comment.user.username}`}>
+                  {comment.user.username}
+                </User>
+              </UserBox>
+              <CreatedAt>{parseDate(comment.createdAt)}</CreatedAt>
+              <ContentsBox>
+                <Contents>{comment.contents}</Contents>
+              </ContentsBox>
+            </Comment>
             <HR>
-                <hr/>
+              <hr />
             </HR>
-            <Images>
-                {images.map(image => (
-                    <ImageBox key={image.id}>
-                        <Image src={image.url}/>
-                    </ImageBox>
-                ))}
-            </Images>
-            <ContentsBox>
-                <Contents>{ReactHtmlParser(contents)}</Contents>
-            </ContentsBox>
-            <Categories>
-                {categories.map(({id, title}) => (
-                    <CategoryBox key={id} onClick={() => onClickCategory(title)}>
-                        <Category to={`/projects/${title}`}>{title}</Category>
-                    </CategoryBox>
-                ))}
-            </Categories>
-            <HR>
-                <hr/>
-            </HR>
-            <CommentForm onSubmit={onSubmitComment}>
-                <CommentCount>{`${comments.length} Comments`}</CommentCount>
-                {isLoggedIn ? (
-                    <>
-                        <CommentInput>
-                            <Input
-                                placeholder={"Enter Comment here"}
-                                required={true}
-                                value={value}
-                                onChange={onChange}
-                            />
-                        </CommentInput>
-                        <CommentButton>
-                            <Button text={"Add Comment"}/>
-                        </CommentButton>
-                    </>
-                ) : (
-                    <RequestLoginBox>
-                        <RequestLogin to={"/login"}>
-                            You must log in to comment!
-                            <br/> Click here to log in <span role="img">😁</span>
-                        </RequestLogin>
-                    </RequestLoginBox>
-                )}
-            </CommentForm>
-            <CommentList>
-                {comments.map(comment => (
-                    <React.Fragment key={comment.id}>
-                        <Comment>
-                            <UserBox>
-                                <User to={`/profile?username=${comment.user.username}`}>
-                                    {comment.user.username}
-                                </User>
-                            </UserBox>
-                            <CreatedAt>{parseDate(comment.createdAt)}</CreatedAt>
-                            <ContentsBox>
-                                <Contents>{comment.contents}</Contents>
-                            </ContentsBox>
-                        </Comment>
-                        <HR>
-                            <hr/>
-                        </HR>
-                    </React.Fragment>
-                ))}
-            </CommentList>
-        </Container>
-    );
+          </React.Fragment>
+        ))}
+      </CommentList>
+    </Container>
+  );
 };

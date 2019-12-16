@@ -2,8 +2,9 @@ import React, { useState, useCallback } from "react";
 import ProjectPresenter from "./ProjectPresenter";
 import queryString from "query-string";
 import { useQuery, useMutation } from "react-apollo-hooks";
+import { toast } from "react-toastify";
+import { CircularProgress } from "@material-ui/core";
 import { IS_LOGGED_IN, SEE_FULL_POST, CREATE_COMMENT } from "./ProjectQueries";
-import {toast} from "react-toastify";
 
 // Project container component
 const ProjectContainer = ({ location, history }) => {
@@ -47,7 +48,7 @@ const ProjectContainer = ({ location, history }) => {
     [createComment]
   );
 
-  const onClickCategory = (category) => {
+  const onClickCategory = category => {
     history.push(`/projects/${category}`);
   };
 
@@ -63,7 +64,7 @@ const ProjectContainer = ({ location, history }) => {
 
   // When data is loading from server, show this
   if (loading) {
-    return <div>loading...</div>;
+    return <CircularProgress />;
   } else {
     let { seeFullPost } = data;
 

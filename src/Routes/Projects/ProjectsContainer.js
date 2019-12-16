@@ -3,6 +3,7 @@ import { useQuery } from "react-apollo-hooks";
 import queryString from "query-string";
 import ProjectsPresenter from "./ProjectsPresenter";
 import { ALL_POSTS, SEARCH_POST } from "./ProjectsQueries";
+import { CircularProgress } from "@material-ui/core";
 
 const ProjectsContainer = ({ match, location }) => {
   const { term } = queryString.parse(location.search);
@@ -18,7 +19,7 @@ const ProjectsContainer = ({ match, location }) => {
   }
 
   if (loading || !data) {
-    return <div>loading...</div>;
+    return <CircularProgress />;
   }
 
   if (term) {
