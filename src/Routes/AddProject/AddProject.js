@@ -44,10 +44,12 @@ const PostBox = styled.div`
 
 const Input = styled.input`
   margin-bottom: 2vh;
+  border: none;
 `;
 
 const TextArea = styled.textarea`
   margin-bottom: 2vh;
+  border:none;
 `;
 
 const IS_LOGGED_IN = gql(`
