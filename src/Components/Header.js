@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import {Link} from "react-router-dom";
-import {MdSearch} from "react-icons/all";
-import {gql} from "apollo-boost";
-import {useMutation} from "react-apollo-hooks";
+import { Link } from "react-router-dom";
+import SearchIcon from "@material-ui/icons/Search";
+import { gql } from "apollo-boost";
+import { useMutation } from "react-apollo-hooks";
 
 const Container = styled.div`
   display: flex;
@@ -13,7 +13,7 @@ const Container = styled.div`
   padding: 0;
   height: 12vh;
   font-size: 2rem;
-  ${({theme}) => `
+  ${({ theme }) => `
     @media ${theme.tablet} {
       font-size: 3rem;
     }
@@ -23,7 +23,7 @@ const Container = styled.div`
 const Search = styled(Link)`
   margin: 30px;
   padding-top: 5px;
-  ${({theme}) => `
+  ${({ theme }) => `
     @media ${theme.tablet} {
       font-size: 3rem;
       flex-direction: row;
@@ -54,7 +54,7 @@ const LogIn = styled(Link)`
     color: ${props => props.theme.lightGreyColor};
     border-color: ${props => props.theme.lightGreyColor};
   }
-  ${({theme}) => `
+  ${({ theme }) => `
     @media ${theme.tablet} {
       display: block;
     }
@@ -74,7 +74,7 @@ const LogOut = styled.div`
     color: ${props => props.theme.lightGreyColor};
     border-color: ${props => props.theme.lightGreyColor};
   }
-  ${({theme}) => `
+  ${({ theme }) => `
     @media ${theme.tablet} {
       display: block;
     }
@@ -82,27 +82,27 @@ const LogOut = styled.div`
 `;
 
 const LOG_OUT = gql`
-    mutation logUserOut {
-        logUserOut @client
-    }
+  mutation logUserOut {
+    logUserOut @client
+  }
 `;
 
-const Header = ({isLoggedIn}) => {
-    const logOut = useMutation(LOG_OUT)[0];
+const Header = ({ isLoggedIn }) => {
+  const logOut = useMutation(LOG_OUT)[0];
 
-    return (
-        <Container>
-            <Search to="/search">
-                <MdSearch/>
-            </Search>
-            <Title to="/">J J L O G</Title>
-            {!isLoggedIn ? (
-                <LogIn to={"/login"}>Log In</LogIn>
-            ) : (
-                <LogOut onClick={logOut}>Log Out</LogOut>
-            )}
-        </Container>
-    );
+  return (
+    <Container>
+      <Search to="/search">
+        <SearchIcon />
+      </Search>
+      <Title to="/">J J L O G</Title>
+      {!isLoggedIn ? (
+        <LogIn to={"/login"}>Log In</LogIn>
+      ) : (
+        <LogOut onClick={logOut}>Log Out</LogOut>
+      )}
+    </Container>
+  );
 };
 
 export default Header;
