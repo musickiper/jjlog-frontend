@@ -42,7 +42,7 @@ const TextBox = styled.div`
 
 
 const AboutMe = () => {
-    const IMG_LINK = "https://firebasestorage.googleapis.com/v0/b/jjlog-b9206.appspot.com/o/images%2Fjamesjung.jpeg?alt=media&token=f92f5f16-36a3-4f64-afb5-9187db3d3ca0";
+    const IMG_LINK = "https://firebasestorage.googleapis.com/v0/b/jjlog-cec69.appspot.com/o/images%2Fjamesjung.jpeg?alt=media&token=72adeb4d-89b1-4b5f-ab9d-a377cfa0210a";
     const GIT_HUB_LINK = "https://github.com/musickiper";
     const LINKED_IN_LINK = "https://www.linkedin.com/in/james-jung-b45404139/";
     const RESUME_LINK = "https://github.com/musickiper/Younsung-s/blob/master/resume_JamesJung.pdf";
