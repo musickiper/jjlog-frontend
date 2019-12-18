@@ -1,9 +1,9 @@
-Web Front-End App of JJLOG
+Web Front-End App of JJLOG 
 ==========================
 
 Details
 --------
-This is web front-end application of JJLOG. It is a replacement of James Jung's old portfolio web application. I will upload my toy projects on this application.
+This is web front-end application of JJLOG. It is a replacement of James Jung's old portfolio web application. I will upload my toy projects on this application. (https://www.jjung.dev/)
 
 Tech Stack
 ----------
