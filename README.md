@@ -1,34 +1,46 @@
-Web Front-End App of JJLOG 
-==========================
+# jjlog-frontend
 
-Details
---------
 This is web front-end application of JJLOG. It is a replacement of James Jung's old portfolio web application. I will upload my toy projects on this application. (https://www.jjung.dev/)
 
-Tech Stack
-----------
-> ### Front-End (WEB)
->> 1. React
->> 2. Styled Component (with Modern CSS, Flexbox, Grid, ...)
->> 3. ...
+## Table of contents
+- [Demo](#demo)
+- [Documentation](#documentation)
 
-> ### Front-End (Mobile)
->> 1. React Native
->> 2. ...
+## Demo
+<https://jjung.dev><br><br>
+![screencast](demo.gif)
 
-> ### Back-End (Server)
->> 1. Apollo-GraphQL
->> 2. express
->> 3. Nodemailer
->> 4. SendGrid
->> ...
+## Documentation
 
-> ### Database
->> 1. MySQL
->> 2. Prisma ORM
->> ...
+### Tach Stack
+#### Front
+- HTML
+- CSS
+- JavaScript
+- React
+- Styled Component (with Modern CSS, Flexbox, Grid, ...)
+- CKEditor
 
-> ### Platform
->> 1. Github (Code Base)
->> 2. Heroku (Back-End, Database)
->> 3. Netlify (Front-End)
+#### Back
+- Express.js
+- Passport.js
+- JWT
+- NodeMailer
+- Apollo-GraphQL
+- express
+- Nodemailer
+- SendGrid
+
+#### Database
+- MySQL
+- Prisma ORM
+
+### Functionality (requirements)
+* User Authentification
+* Writing a post
+* Writing a comment
+* Showing Projects
+* Showing a detail page of a project
+* Searching posts based on categories
+* Searching posts based on keywords in title and contents
+* Showing user's list of projects and projects that user commented on
